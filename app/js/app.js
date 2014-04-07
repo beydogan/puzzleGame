@@ -4,6 +4,7 @@
 var puzzleApp = angular.module('puzzleApp', [
   'ngRoute',
   'puzzleApp.filters',
+  'puzzleApp.directives',
   'puzzleApp.controllers',
 ]).
 config(['$routeProvider', function($routeProvider) {
