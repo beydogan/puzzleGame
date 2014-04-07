@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var blogular = angular.module('puzzleApp', [
+var puzzleApp = angular.module('puzzleApp', [
   'ngRoute',
   'puzzleApp.filters',
   'puzzleApp.controllers',
