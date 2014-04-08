@@ -20,7 +20,8 @@ angular.module('puzzleApp.directives', []).
   
   
   }
-  }).directive('gridCell', function() {
+  }).
+  directive('gridCell', function() {
     return {
     restrict: 'A',
     template: '<td>{{number}}</td>',
@@ -33,5 +34,56 @@ angular.module('puzzleApp.directives', []).
   
   
   }
-  });
+  }). 
+  /* 
+    Directive: Draggable 
+    References: http://docs.angularjs.org/guide/compiler
 
+    mousemove and mouseup events must be binded to $document not the element.
+    When its binded to the element, mouse pointer is going outside of the element
+    and onMouseMove function is not working properly.
+  */
+  directive('draggable', ['$document', function($document) {
+    return function(scope, element) {
+      var el = element[0];
+      $(el).css("position", "absolute");
+      $(el).css("cursor", "pointer");
+
+      var dragging, dragX, dragY;
+      el.addEventListener(
+        'mousedown',
+        function(e) {
+          if(!dragging){
+            dragX = e.clientX - e.target.offsetLeft;
+            dragY = e.clientY - e.target.offsetTop;
+            dragging = 1
+            $document.bind("mousemove", onMouseMove);
+            $document.bind("mouseup", onMouseUp);
+          }
+          return false;
+        },
+        false
+      );
+      
+
+      var onMouseMove = function(e) {
+          if(dragging == 1 && el){
+            el.style.left = (e.clientX - dragX) + "px";
+            el.style.top = (e.clientY - dragY) + "px";
+          }
+          return false;
+      }
+
+      var onMouseUp = function(e) {
+          if(dragging == 1 && el){
+            el.style.left = (e.clientX - dragX) + "px";
+            el.style.top = (e.clientY - dragY) + "px";
+            dragging = null;
+            dragX = null;
+            dragY = null;
+          }
+          return false;
+      };
+      
+    }
+  }])

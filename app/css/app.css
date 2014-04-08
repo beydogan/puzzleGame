@@ -7,3 +7,14 @@ table.grid-table td{
 	text-align: center;
 	border: 1px solid red;
 }
+
+.box{
+	border: 1px solid blue;
+	height: 30px;
+	width: 30px;
+	user-select:none;-moz-user-select:none;-webkit-user-select:none;
+}
+
+.drag {
+	border:	1px solid red;
+}
