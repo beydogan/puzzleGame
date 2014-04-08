@@ -1,0 +1,9 @@
+table.grid-table {
+	margin: auto auto;
+	margin-top: 100px;
+}
+
+table.grid-table td{
+	text-align: center;
+	border: 1px solid red;
+}

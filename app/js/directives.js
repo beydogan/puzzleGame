@@ -26,7 +26,6 @@ angular.module('puzzleApp.directives', []).
     template: '<td>{{number}}</td>',
     link: function (scope, elem, attrs) {
       scope.number = attrs.gridCellNumber;
-      elem.css("border", "1px solid red");
       elem.css("width", attrs.gridCellSize + "px");
       elem.css("height", attrs.gridCellSize + "px");
       console.log(attrs);
