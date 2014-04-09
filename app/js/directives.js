@@ -34,7 +34,20 @@ angular.module('puzzleApp.directives', []).
   
   
   }
-  }). 
+  }).
+  directive('square', function () {
+
+      return {
+          restrict:'E',
+          link:function (scope, elem, attrs) {
+              elem.addClass('square');
+              elem.css("width", attrs.size + "px");
+              elem.css("height", attrs.size + "px");
+
+
+          }
+      };
+  }).
   /* 
     Directive: Draggable 
     References: http://docs.angularjs.org/guide/compiler

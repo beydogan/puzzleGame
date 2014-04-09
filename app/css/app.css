@@ -18,3 +18,10 @@ table.grid-table td{
 .drag {
 	border:	1px solid red;
 }
+
+.square {
+	border: 1px solid blue;
+	position: absolute;
+	text-align: center;
+	vertical-align: middle;
+}
