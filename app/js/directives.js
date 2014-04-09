@@ -31,19 +31,104 @@ angular.module('puzzleApp.directives', []).
       elem.css("height", attrs.gridCellSize + "px");
       console.log(attrs);
     }
-  
-  
   }
   }).
-  directive('square', function () {
+  directive('square', function ($rootScope) {
+
+      /*
+      Generates random integer between 2 numbers
+      Reference: http://stackoverflow.com/questions/10134237/javascript-random-integer-between-two-numbers
+      */
+      var getRandomInt = function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      /*
+        Generates random x,y coords within window by offset(square size)
+      */
+      var generateRandomCoords = function(offset){
+        return {
+          x: getRandomInt(0, window.innerWidth - offset),
+          y: getRandomInt(0, window.innerHeight - offset)
+        }
+      }
+
+      /*
+
+      */
+      var isInGrid = function(squareX,squareY, squareSize, grid){
+        return !(
+            ( ( squareY + squareSize ) < ( grid.offset().top ) ) ||
+            ( squareY > ( grid.offset().top + grid.height() ) ) ||
+            ( ( squareX + squareSize ) < grid.offset().left ) ||
+            ( squareX > ( grid.offset().left + grid.width() ) )
+          );
+      }
+
+      /*
+        Checks whether two shapes are colliding
+        Reference: http://www.benjaminhorn.se/code/pixel-accurate-collision-detection-with-javascript-and-canvas/
+      */
+      var isCollide = function(source, target){
+         return !(
+              ( ( source.y + source.height ) < ( target.y ) ) ||
+              ( source.y > ( target.y + target.height ) ) ||
+              ( ( source.x + source.width ) < target.x ) ||
+              ( source.x > ( target.x + target.width ) )
+            );
+      }
+
+      /*
+        Checks whether a square is colliding with other squares in the window
+      */
+      var checkCollisions = function(square){
+        for (var i=0;i< $rootScope.squares.length;i++)
+        { 
+            if(isCollide(square, $rootScope.squares[i])){
+              return true;
+            }
+        }
+        return false;
+      }
+
+      var createSquare =function(size){
+        var pos = generateRandomCoords(size);
+
+        return {
+          x: pos.x,
+          y: pos.y,
+          height: size,
+          width: size
+        }
+
+      }
 
       return {
           restrict:'E',
+
           link:function (scope, elem, attrs) {
               elem.addClass('square');
+              
               elem.css("width", attrs.size + "px");
               elem.css("height", attrs.size + "px");
+              var sizeInt = parseInt(attrs.size); 
+              var square = createSquare(sizeInt);
+              var g = $('#grid');
+              var grid = {
+                x: Math.floor(g.offset().left),
+                y: Math.floor(g.offset().top),
+                width: g.width(),
+                height: g.height()
+              }
+console.log(grid);
+              while(isCollide(square, grid)){ 
+                console.log("re")
+                square = createSquare(sizeInt);
+              }
+              $rootScope.squares.push(square); 
 
+              elem.css("top", square.y + "px");
+              elem.css("left", square.x + "px");
 
           }
       };

@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('puzzleApp.controllers', [])
-  .controller('HomeCtrl', ['$scope', function($scope) {
+  .controller('HomeCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.x = 2;
     $scope.y = 4;
     $scope.a = 50;
@@ -14,5 +14,6 @@ angular.module('puzzleApp.controllers', [])
         $scope.squares.push(i);
     }
 
+    $rootScope.squares = [];
   }])
  
